@@ -6,7 +6,7 @@ jobs:
     runs-on: macos-latest
     steps:
       - name: Checkout Code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Theos
         run: |
@@ -14,15 +14,18 @@ jobs:
           echo "THEOS=~/theos" >> $GITHUB_ENV
           echo "~/theos/bin" >> $GITHUB_PATH
 
-      - name: Extract Files
-        run: unzip BilalMod.zip
+      - name: Prepare Files
+        run: |
+          unzip -o BilalMod.zip
+          cp -r * ./ 
 
       - name: Build Tweak
         run: |
           make package FINALPACKAGE=1
           
       - name: Upload Dylib
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Fatih-Hile-Dosyasi
           path: .theos/obj/debug/*.dylib
+          
